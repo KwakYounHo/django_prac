@@ -7,21 +7,28 @@ topics = [
   {"id": 4, "title": "delete", "body": "Hello Delete"}, 
 ]
 
+def HTMLLayout(children):
+  return f"""
+    <html>
+      <body>
+        {children}
+      </body>
+    </html>
+  """
+
 def index(request):
   global topics
   lists = ""
   for topic in topics:
     lists += f"<li style='text-transform:capitalize;'><a href='/read/{topic['id']}'>{topic['title']}</a></li>"
-  return HttpResponse(f"""
-  <html>
-  <body>
+  
+  main = f"""
     <h1>Welcome to Charlie</h1>
     <ol>
       {lists}
     </ol>
-  </body>
-  </html>
-""")
+    """
+  return HttpResponse(HTMLLayout(main))
 
 def create(request):
   return HttpResponse("Create Section")
