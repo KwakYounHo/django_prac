@@ -7,28 +7,33 @@ topics = [
   {"id": 4, "title": "delete", "body": "Hello Delete"}, 
 ]
 
-def HTMLLayout(children):
-  return f"""
-    <html>
-      <body>
-        {children}
-      </body>
-    </html>
-  """
-
-def index(request):
+def HTMLLayout(title, children):
   global topics
   lists = ""
   for topic in topics:
-    lists += f"<li style='text-transform:capitalize;'><a href='/read/{topic['id']}'>{topic['title']}</a></li>"
-  
-  main = f"""
-    <h1>Welcome to Charlie</h1>
-    <ol>
-      {lists}
-    </ol>
-    """
-  return HttpResponse(HTMLLayout(main))
+    lists += f"<li><a href='/read/{topic['id']}'>{topic['title']}</a></li>"
+  return f"""
+  <html>
+    <body>
+      <header>
+        <h1>{title}</h1>
+        <nav>
+          <ol>
+            {lists}
+          </ol>
+        </nav>
+      </header>
+      {children}
+    </body>
+  </html>
+  """
+
+def index(request):
+  main = """
+  <p>Hello Django!</p>
+  <p>This page's route is Index!</p>
+  """
+  return HttpResponse(HTMLLayout('Welcome to Charlie', main))
 
 def create(request):
   return HttpResponse("Create Section")
