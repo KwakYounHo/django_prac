@@ -63,9 +63,10 @@ def read(request, id):
       </a>
     </li>
     <li>
-      <a href="/delete/{id}">
-        <button>delete article</button>
-      </a>
+      <form action="/delete" method="post">
+        <input type="hidden" name="id" value={id}>
+        <input type="submit" value="delete">
+      </form>
     </li>
   </ul>
   """
@@ -96,14 +97,16 @@ def create(request):
     topics.append(newTopic)
     nextId = nextId + 1
     return redirect(redirectUrl)
-  
-def delete(_, id):
-  global topics
-  for topic in topics:
-    if topic["id"] == id:
-      topics.remove(topic)
-      break
-  return redirect("/")
+
+@csrf_exempt
+def delete(request):
+  if request.method == "POST":
+    global topics
+    for topic in topics:
+      if topic["id"] == int(request.POST["id"]):
+        topics.remove(topic)
+        break
+    return redirect("/")
 
 @csrf_exempt
 def update(request, id):
