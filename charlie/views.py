@@ -16,7 +16,7 @@ def HTMLLayout(children):
   <html>
     <body>
       <header>
-        <h1>Charlie World</h1>
+        <h1><a href="/">Charlie World</a></h1>
         <nav>
           <ol>
             {lists}
@@ -52,4 +52,5 @@ def read(request, id):
   return HttpResponse(HTMLLayout(main))
 
 def create(request):
+  
   return HttpResponse("Create Section")
