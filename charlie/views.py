@@ -7,7 +7,7 @@ topics = [
   {"id": 4, "title": "delete", "body": "Hello Delete"}, 
 ]
 
-def HTMLLayout(title, children):
+def HTMLLayout(children):
   global topics
   lists = ""
   for topic in topics:
@@ -16,7 +16,7 @@ def HTMLLayout(title, children):
   <html>
     <body>
       <header>
-        <h1>{title}</h1>
+        <h1>Charlie World</h1>
         <nav>
           <ol>
             {lists}
@@ -33,10 +33,23 @@ def index(request):
   <p>Hello Django!</p>
   <p>This page's route is Index!</p>
   """
-  return HttpResponse(HTMLLayout('Welcome to Charlie', main))
+  return HttpResponse(HTMLLayout(main))
+
+def read(request, id):
+  global topics
+  title = ""
+  article = ""
+  for topic in topics:
+    if topic["id"] == int(id):
+      title += f"<h2>{topic['title']}</h2>"
+      article += f"<p>{topic['body']}</p>"
+      break
+
+  main = f"""
+  {title}
+  {article}
+  """
+  return HttpResponse(HTMLLayout(main))
 
 def create(request):
   return HttpResponse("Create Section")
-
-def read(request, id):
-  return HttpResponse(f"Read seq: {id}")
